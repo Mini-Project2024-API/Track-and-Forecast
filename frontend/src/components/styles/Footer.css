@@ -1,0 +1,17 @@
+footer {
+  background-color: #0d47a1;
+  color: white;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+footer p {
+  font-size: 0.875rem;
+  margin: 0;
+}

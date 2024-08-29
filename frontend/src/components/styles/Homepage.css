@@ -1,0 +1,31 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.intro {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.intro h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.intro p {
+  font-size: 1.125rem;
+  color: #333;
+}
+
+.city-selection {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}

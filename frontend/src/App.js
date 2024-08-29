@@ -1,9 +1,13 @@
-import "./App.css";
+import React from "react";
+import Navbar from "./components/Navbar";
+import Announcement from "./components/HomePage/Announcement";
+import Footer from "./components/Footer";
+import Homepage from "./pages/HomePage";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Track and Forecast</h1>
+    <div>
+      <Homepage />
     </div>
   );
 }
