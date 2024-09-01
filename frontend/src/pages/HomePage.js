@@ -8,7 +8,6 @@ import "../components/styles/Homepage.css";
 function Homepage() {
   return (
     <div className="homepage">
-      <Navbar />
       <Announcement />
       <main className="content">
         <section className="intro">
@@ -22,7 +21,6 @@ function Homepage() {
           <CitySelector />
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

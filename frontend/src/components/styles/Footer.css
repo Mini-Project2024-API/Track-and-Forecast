@@ -1,7 +1,7 @@
 footer {
   background-color: #0d47a1;
   color: white;
-  padding: 1rem 0;
+  padding: 2rem 0;
   text-align: center;
 }
 
@@ -11,7 +11,45 @@ footer .container {
   padding: 0 1rem;
 }
 
-footer p {
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-content p {
   font-size: 0.875rem;
   margin: 0;
+}
+
+.social-media {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.social-icon:hover {
+  color: #f0f0f0;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #f0f0f0;
 }
