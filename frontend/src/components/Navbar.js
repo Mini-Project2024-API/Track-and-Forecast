@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 import "./styles/navbar.css";
 
 function Navbar() {
@@ -40,10 +41,12 @@ function Navbar() {
     <>
       <nav>
         <div className="container">
-          <a className="logo" href="#">
-            <i className="fas fa-map-signs"></i>
-            Track & Forecast
-          </a>
+          {/* Logo */}
+          <div className="logo">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+              <img src={logo} alt="Logo" className="navbar-logo" />
+            </Link>
+          </div>
 
           <ul className={`nav-links ${mobileMenuOpen ? "open" : ""}`}>
             <li>
