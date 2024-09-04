@@ -4,8 +4,7 @@ import Homepage from "./pages/HomePage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-// import Announcements from "./pages/Announcements";
-// import AlternatePaths from "./pages/AlternatePaths";
+import Announcements from "./components/HomePage/Announcement";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
@@ -19,8 +18,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
-          {/* <Route path="/announcements" element={<Announcements />} />
-          <Route path="/alternate-paths" element={<AlternatePaths />} /> */}
+          <Route path="/announcements" element={<Announcements />} />
         </Routes>
         <Footer />
       </div>

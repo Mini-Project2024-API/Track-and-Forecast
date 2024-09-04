@@ -55,7 +55,10 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link to="/announcement" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                to="/announcements"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 <i className="fas fa-bullhorn"></i> &nbsp;Announcements
               </Link>
             </li>
