@@ -3,11 +3,18 @@ const router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { protect } = require("../auth/authMiddleware");
+const { protect } = require("../middleware/auth");
 
-/* signup */
+// Signup route
 router.post("/signup", async (req, res) => {
-  const { fullname, email, password, userType } = req.body;
+  const {
+    fullname,
+    email,
+    password,
+    userType,
+    studentId,
+    teacherId,
+  } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -21,80 +28,75 @@ router.post("/signup", async (req, res) => {
       email,
       password,
       userType,
+      studentId: userType === "student" ? studentId : undefined,
+      teacherId: userType === "teacher" ? teacherId : undefined,
     });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
+      expiresIn: "1h",
     });
 
-    res.status(201).json({
-      token,
-      user: {
-        id: user._id,
-        fullname: user.fullname,
-        email: user.email,
-        userType: user.userType,
-      },
-    });
+    res.status(201).json({ token });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-/* login */
+// Login route
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
 
-    if (user && (await user.matchPassword(password))) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "30d",
-      });
-
-      res.json({
-        token,
-        user: {
-          id: user._id,
-          fullname: user.fullname,
-          email: user.email,
-          userType: user.userType,
-        },
-      });
-    } else {
-      res.status(401).json({ message: "Invalid email or password" });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid email or password" });
     }
+
+    const isMatch = await user.matchPassword(password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ token });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-/* profile */
+// Profile route
 router.get("/profile", protect, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id).select("-password");
     res.json({ user });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
+// Update profile route
 router.put("/profile", protect, async (req, res) => {
-  const { fullname, email, password } = req.body;
-
   try {
-    const user = await User.findById(req.user.id);
+    const { fullname, email, password } = req.body;
 
-    if (fullname) user.fullname = fullname;
-    if (email) user.email = email;
-    if (password) user.password = password; // Ensure to hash password before saving
+    const user = await User.findById(req.user._id);
+
+    user.fullname = fullname || user.fullname;
+    user.email = email || user.email;
+    if (password) {
+      user.password = password;
+    }
 
     await user.save();
 
     res.json({ message: "Profile updated successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 

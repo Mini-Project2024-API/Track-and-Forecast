@@ -9,14 +9,21 @@ function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
+  const checkAuthStatus = () => {
+    const token = localStorage.getItem("authToken");
+    setIsAuthenticated(!!token);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
+    checkAuthStatus();
+    const handleAuthChange = () => {
+      checkAuthStatus();
+    };
+    window.addEventListener("authChange", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
   }, []);
 
   const toggleDropdown = () => {
@@ -31,6 +38,7 @@ function Navbar() {
     localStorage.removeItem("authToken");
     setIsAuthenticated(false);
     setAlert({ type: "success", message: "Logout successful!" });
+    window.dispatchEvent(new Event("authChange"));
     setTimeout(() => {
       setAlert(null);
       navigate("/");
@@ -41,7 +49,6 @@ function Navbar() {
     <>
       <nav>
         <div className="container">
-          {/* Logo */}
           <div className="logo">
             <Link to="/" onClick={() => setMobileMenuOpen(false)}>
               <img src={logo} alt="Logo" className="navbar-logo" />
@@ -119,7 +126,24 @@ function Navbar() {
       </nav>
 
       {alert && (
-        <div className={`alert alert-${alert.type}`}>{alert.message}</div>
+        <div
+          className={`alert offset-3 col-6 alert-${alert.type}`}
+          role="alert"
+        >
+          <i
+            className={`alert-icon fas fa-${
+              alert.type === "success"
+                ? "check-circle"
+                : alert.type === "danger"
+                ? "exclamation-circle"
+                : "info-circle"
+            }`}
+          ></i>
+          <div className="alert-message">{alert.message}</div>
+          <button onClick={() => setAlert(null)} className="close-alert">
+            &times;
+          </button>
+        </div>
       )}
     </>
   );

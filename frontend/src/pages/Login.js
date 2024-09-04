@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../components/styles/alert.css";
 import "../components/styles/Login.css";
 
 function Login() {
@@ -20,8 +21,11 @@ function Login() {
         }
       );
       localStorage.setItem("authToken", response.data.token);
-      setAlert({ type: "success", message: "Login successful!" });
-      setTimeout(() => navigate("/profile"), 2000);
+      window.dispatchEvent(new Event("authChange"));
+
+      navigate("/", {
+        state: { alert: { type: "success", message: "Login successful!" } },
+      });
     } catch (err) {
       setAlert({ type: "danger", message: "Login failed. Please try again." });
     }
@@ -33,9 +37,22 @@ function Login() {
         <h2>Login</h2>
         {alert && (
           <div className={`alert alert-${alert.type}`} role="alert">
-            {alert.message}
+            <i
+              className={`alert-icon fas fa-${
+                alert.type === "success"
+                  ? "check-circle"
+                  : alert.type === "danger"
+                  ? "exclamation-circle"
+                  : "info-circle"
+              }`}
+            ></i>
+            <div className="alert-message">{alert.message}</div>
+            <button onClick={() => setAlert(null)} className="close-alert">
+              &times;
+            </button>
           </div>
         )}
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>

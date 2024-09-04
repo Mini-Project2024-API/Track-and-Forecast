@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../components/styles/alert.css";
 import "../components/styles/Signup.css";
 
 function Signup() {
@@ -8,6 +9,8 @@ function Signup() {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [teacherId, setTeacherId] = useState("");
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
@@ -18,18 +21,32 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const userData = {
+        fullname,
+        email,
+        password,
+        userType,
+      };
+
+      if (userType === "student") {
+        userData.studentId = studentId;
+      } else if (userType === "teacher") {
+        userData.teacherId = teacherId;
+      }
+
       const response = await axios.post(
         "http://localhost:5000/api/auth/signup",
-        {
-          fullname,
-          email,
-          password,
-          userType,
-        }
+        userData
       );
+
       localStorage.setItem("authToken", response.data.token);
-      setAlert({ type: "success", message: "Signup successful!" });
-      setTimeout(() => navigate("/profile"), 2000);
+
+      // Dispatch the custom "authChange" event
+      window.dispatchEvent(new Event("authChange"));
+
+      navigate("/", {
+        state: { alert: { type: "success", message: "Signup successful!" } },
+      });
     } catch (err) {
       setAlert({ type: "danger", message: "Signup failed. Please try again." });
     }
@@ -41,9 +58,22 @@ function Signup() {
         <h2>Create an Account</h2>
         {alert && (
           <div className={`alert alert-${alert.type}`} role="alert">
-            {alert.message}
+            <i
+              className={`alert-icon fas fa-${
+                alert.type === "success"
+                  ? "check-circle"
+                  : alert.type === "danger"
+                  ? "exclamation-circle"
+                  : "info-circle"
+              }`}
+            ></i>
+            <div className="alert-message">{alert.message}</div>
+            <button onClick={() => setAlert(null)} className="close-alert">
+              &times;
+            </button>
           </div>
         )}
+
         <form onSubmit={handleSubmit}>
           <div className="user-type-selection">
             <label>
@@ -111,14 +141,26 @@ function Signup() {
           {userType === "student" && (
             <div className="form-group">
               <label htmlFor="student-id">Student ID</label>
-              <input type="text" id="student-id" required />
+              <input
+                type="text"
+                id="student-id"
+                value={studentId}
+                onChange={(e) => setStudentId(e.target.value)}
+                required
+              />
             </div>
           )}
 
           {userType === "teacher" && (
             <div className="form-group">
               <label htmlFor="teacher-id">Teacher ID</label>
-              <input type="text" id="teacher-id" required />
+              <input
+                type="text"
+                id="teacher-id"
+                value={teacherId}
+                onChange={(e) => setTeacherId(e.target.value)}
+                required
+              />
             </div>
           )}
 
