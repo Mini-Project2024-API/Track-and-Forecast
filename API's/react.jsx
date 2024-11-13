@@ -4,7 +4,7 @@ import axios from "axios";
 import "../components/styles/alert.css";
 import "../components/styles/Login.css";
 
-function Login() {
+function Login({ userRole }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(null);
@@ -13,18 +13,24 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/token", {
-        username: email,
-        password,
-      }
-    );
-      
-      localStorage.setItem("authToken", response.data.token);
-      window.dispatchEvent(new Event("authChange"));
+      const response = await axios.post(
+        "http://localhost:8000/token",
+        {
+          username: email,
+          password: password,
+        },
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+      const token = response.data.access_token;
+      localStorage.setItem("authToken", token);
 
-      navigate("/", {
-        state: { alert: { type: "success", message: "Login successful!" } },
-      });
+      if (userRole === "teacher") {
+        navigate("/teacher-dashboard");
+      } else if (userRole === "student") {
+        navigate("/student-dashboard");
+      }
     } catch (err) {
       setAlert({ type: "danger", message: "Login failed. Please try again." });
     }
@@ -33,18 +39,9 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h2>Login</h2>
+        <h2>Login as {userRole}</h2>
         {alert && (
           <div className={`alert alert-${alert.type}`} role="alert">
-            <i
-              className={`alert-icon fas fa-${
-                alert.type === "success"
-                  ? "check-circle"
-                  : alert.type === "danger"
-                  ? "exclamation-circle"
-                  : "info-circle"
-              }`}
-            ></i>
             <div className="alert-message">{alert.message}</div>
             <button onClick={() => setAlert(null)} className="close-alert">
               &times;
