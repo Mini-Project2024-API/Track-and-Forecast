@@ -16,7 +16,7 @@ nav {
   width: 100%;
 }
 
-/* logo*/
+/* Container for the logo and brand name */
 .logo {
   display: flex;
   align-items: center;
@@ -209,6 +209,29 @@ nav {
   outline: none;
   transform: scale(1.1);
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* alert */
+.alert {
+  width: 80%;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 1000;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.alert-success {
+  background-color: #28a745; /* Green color for logout successfully */
+}
+
+.alert-error {
+  background-color: #dc3545; /* Red color for logout error */
 }
 
 @media (max-width: 768px) {
