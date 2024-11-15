@@ -13,13 +13,12 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:8000/token", {
+        username: email,
+        password,
+      }
+    );
+      
       localStorage.setItem("authToken", response.data.token);
       window.dispatchEvent(new Event("authChange"));
 
