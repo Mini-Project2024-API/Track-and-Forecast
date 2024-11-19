@@ -8,14 +8,16 @@ function CitySelector() {
   const [sourceStations, setSourceStations] = useState([]);
   const [filter, setFilter] = useState("All");
   const [filters, setFilters] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
+  const [isTrainModalOpen, setIsTrainModalOpen] = useState(false);
   const [trainList, setTrainList] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState("");
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchSourceStations = async () => {
       setLoading(true);
-      const trains = getTrains(); // Fetch all trains first
+      const trains = getTrains();
       const stations = trains
         .filter((train) => filter === "All" || train.line === filter)
         .map((train) => train.source);
@@ -33,44 +35,33 @@ function CitySelector() {
     setFilters(availableFilters);
   }, []);
 
-  useEffect(() => {
-    if (selectedCity && selectedDestination) {
-      const fetchTrainsForSelection = () => {
-        setLoading(true);
-        const trainsForSelection = getTrains().filter(
-          (train) =>
-            train.source === selectedCity &&
-            train.destination === selectedDestination
-        );
-        setTrainList(trainsForSelection);
-        setLoading(false);
-      };
-      fetchTrainsForSelection();
-    }
-  }, [selectedCity, selectedDestination]);
-
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
     setSelectedCity("");
-    setIsModalOpen(false);
-    setTrainList([]);
     setSelectedDestination("");
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
     setTrainList([]);
-    setSelectedDestination("");
   };
 
   const handleCityClick = (city) => {
     setSelectedCity(city);
-    setIsModalOpen(true);
+    setIsDestinationModalOpen(true);
   };
 
   const handleDestinationSelect = (destination) => {
     setSelectedDestination(destination);
-    setIsModalOpen(false);
+    const trainsForSelection = getTrains().filter(
+      (train) =>
+        train.source === selectedCity && train.destination === destination
+    );
+    setTrainList(trainsForSelection);
+    setIsDestinationModalOpen(false);
+    setIsTrainModalOpen(true);
+  };
+
+  const closeTrainModal = () => {
+    setIsTrainModalOpen(false);
+    setTrainList([]);
+    setSelectedDestination("");
   };
 
   return (
@@ -107,27 +98,33 @@ function CitySelector() {
         )}
       </div>
 
-      {isModalOpen && (
+      {isDestinationModalOpen && (
         <DestinationSelector
           selectedCity={selectedCity}
-          closeModal={closeModal}
+          closeModal={() => setIsDestinationModalOpen(false)}
           handleDestinationSelect={handleDestinationSelect}
         />
       )}
 
-      {trainList.length > 0 && (
-        <div className="train-list">
-          <h3>Available Trains:</h3>
-          <ul>
-            {trainList.map((train) => (
-              <li key={train.id}>
-                <strong>
-                  {train.source} → {train.destination}
-                </strong>{" "}
-                ({train.type}) - {train.timing}
-              </li>
-            ))}
-          </ul>
+      {isTrainModalOpen && (
+        <div className="modal-overlay" onClick={closeTrainModal}>
+          <div className="train-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Available Trains</h3>
+            {trainList.length > 0 ? (
+              <ul>
+                {trainList.map((train) => (
+                  <li key={train.id}>
+                    <strong>Train ID:</strong> {train.id},{" "}
+                    <strong>Type:</strong> {train.type},{" "}
+                    <strong>Timing:</strong> {train.timing}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No trains available for this route.</p>
+            )}
+            <button onClick={closeTrainModal}>Close</button>
+          </div>
         </div>
       )}
     </div>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../components/styles/alert.css";
 import "../components/styles/Login.css";
 
 function Login() {
@@ -13,21 +12,27 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/token", {
-        username: email,
-        password,
-      }
-    );
-      
-      localStorage.setItem("authToken", response.data.token);
-      window.dispatchEvent(new Event("authChange"));
+      // Sending correct credentials to the login route
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-      navigate("/", {
-        state: { alert: { type: "success", message: "Login successful!" } },
-      });
+      // Storing the token in localStorage
+      localStorage.setItem("authToken", response.data.token);
+
+      setAlert({ type: "success", message: "Login successful!" });
+      setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       setAlert({ type: "danger", message: "Login failed. Please try again." });
     }
+  };
+
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
   };
 
   return (
@@ -36,22 +41,9 @@ function Login() {
         <h2>Login</h2>
         {alert && (
           <div className={`alert alert-${alert.type}`} role="alert">
-            <i
-              className={`alert-icon fas fa-${
-                alert.type === "success"
-                  ? "check-circle"
-                  : alert.type === "danger"
-                  ? "exclamation-circle"
-                  : "info-circle"
-              }`}
-            ></i>
-            <div className="alert-message">{alert.message}</div>
-            <button onClick={() => setAlert(null)} className="close-alert">
-              &times;
-            </button>
+            {alert.message}
           </div>
         )}
-
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
@@ -79,6 +71,9 @@ function Login() {
             Login
           </button>
         </form>
+        <p className="forgot-password-link">
+          <button onClick={handleForgotPassword}>Forgot Password?</button>
+        </p>
         <p className="signup-link">
           Don't have an account? <Link to="/signup">Sign up here</Link>.
         </p>
