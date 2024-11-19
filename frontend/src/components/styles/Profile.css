@@ -102,3 +102,42 @@
   background-color: #1976d2;
   transform: translateY(-2px);
 }
+
+.alert {
+  position: relative;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.alert .close:hover {
+  color: #333; /* Color on hover */
+}
+
+.alert .close span {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5rem;
+}
