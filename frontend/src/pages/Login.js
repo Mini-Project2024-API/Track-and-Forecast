@@ -12,18 +12,27 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/token", {
-        username: email,
-        password,
-      }
-    );
-      
+      // Sending correct credentials to the login route
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      // Storing the token in localStorage
       localStorage.setItem("authToken", response.data.token);
+
       setAlert({ type: "success", message: "Login successful!" });
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       setAlert({ type: "danger", message: "Login failed. Please try again." });
     }
+  };
+
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
   };
 
   return (
@@ -62,6 +71,9 @@ function Login() {
             Login
           </button>
         </form>
+        <p className="forgot-password-link">
+          <button onClick={handleForgotPassword}>Forgot Password?</button>
+        </p>
         <p className="signup-link">
           Don't have an account? <Link to="/signup">Sign up here</Link>.
         </p>

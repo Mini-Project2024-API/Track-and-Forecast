@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Announcements from "./components/HomePage/Announcement";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/announcements" element={<Announcements />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
         <Footer />
       </div>
