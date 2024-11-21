@@ -32,7 +32,7 @@
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/track-and-forecast.git
+git clone https://github.com/Mini-Project2024-API/Track-and-Forecast.git
 ```
 
 ### Setup Backend
