@@ -5,8 +5,6 @@ const axios = require("axios");
 const connectDB = require("./config/db");
 const http = require("http");
 const socketIo = require("socket.io");
-const Notification = require("./models/Notification");
-const User = require("./models/User");
 
 dotenv.config();
 connectDB();
@@ -37,58 +35,36 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 // API Routes
-app.use("/api/auth", require("./routes/auth"));
 app.use("/api/notifications", require("./routes/notifications"));
+app.use("/api/auth", require("./routes/auth"));
 
-// Post Announcement Route
-app.post("/api/notifications", async (req, res) => {
-  const { message, teacherId } = req.body;
-
-  if (!message || !teacherId) {
-    return res
-      .status(400)
-      .json({ message: "Message and teacherId are required" });
-  }
+// Train delay route - This now checks weather and sends notifications
+app.post("/train-delay", async (req, res) => {
+  const { trainName, location } = req.body;
 
   try {
-    // Check if the teacher is valid or not
-    const teacher = await User.findById(teacherId);
-    if (!teacher || teacher.userType !== "teacher") {
-      return res
-        .status(403)
-        .json({ message: "Invalid teacher or teacher not logged in" });
-    }
-
-    const newNotification = new Notification({
-      message,
-      postedBy: teacherId,
-      createdAt: new Date(),
-    });
-
-    await newNotification.save();
-
-    activeConnections.forEach((socket) =>
-      socket.emit("notification", { message, createdAt: new Date() })
+    // Ensure WEATHER_API_KEY is in .env file
+    const weatherResponse = await axios.get(
+      `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.WEATHER_API_KEY}`
     );
 
-    res.status(201).json({ message: "Announcement posted successfully!" });
+    const weatherData = weatherResponse.data;
+
+    // Calculate delay based on rain data
+    const rain = weatherData.rain?.["1h"] || 0;
+    const delay = rain > 0 ? Math.ceil(rain * 10) : 5; // Predict delay based on rain
+    const message = `Train ${trainName} is delayed by ${delay} minutes due to weather conditions in ${location}.`;
+
+    // Emit notification to active connections
+    activeConnections.forEach((socket) => {
+      socket.emit("notification", { trainName, delay, location, message });
+    });
+
+    // Respond to the client
+    res.json({ success: true, delay, message });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to post announcement" });
-  }
-});
-
-// All notifications route
-app.get("/api/notifications", async (req, res) => {
-  try {
-    const notifications = await Notification.find()
-      .populate("postedBy", "fullname")
-      .sort({ createdAt: -1 });
-
-    res.status(200).json(notifications);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch notifications" });
+    res.status(500).json({ success: false, error: "Unable to fetch data" });
   }
 });
 
