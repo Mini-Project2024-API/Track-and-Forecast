@@ -12,12 +12,14 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/token", {
-        username: email,
-        password,
-      }
-    );
-      
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
       localStorage.setItem("authToken", response.data.token);
       setAlert({ type: "success", message: "Login successful!" });
       setTimeout(() => navigate("/profile"), 2000);

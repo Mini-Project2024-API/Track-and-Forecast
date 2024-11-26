@@ -20,13 +20,11 @@ function Signup() {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/signup",
-        {
-          fullname,
-          email,
-          password,
-          userType,
-        }
+        { fullname, email, password, userType }
       );
+      if (response.data.userType === "teacher") {
+        localStorage.setItem("teacherId", response.data.user.id);
+      }
       localStorage.setItem("authToken", response.data.token);
       setAlert({ type: "success", message: "Signup successful!" });
       setTimeout(() => navigate("/profile"), 2000);
