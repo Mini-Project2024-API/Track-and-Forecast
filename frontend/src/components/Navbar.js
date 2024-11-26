@@ -19,6 +19,12 @@ function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem("authToken")) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
