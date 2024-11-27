@@ -26,21 +26,27 @@ footer .container {
 .social-media {
   display: flex;
   gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .social-icon {
   color: white;
   font-size: 1.5rem;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.2s;
 }
 
 .social-icon:hover {
   color: #f0f0f0;
+  transform: scale(1.1);
 }
 
 .footer-links {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .footer-links a {
@@ -52,4 +58,57 @@ footer .container {
 
 .footer-links a:hover {
   color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  footer {
+    padding: 1.5rem 0;
+  }
+
+  .footer-content p {
+    font-size: 0.8rem;
+  }
+
+  .social-media {
+    gap: 0.75rem;
+  }
+
+  .social-icon {
+    font-size: 1.25rem;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 1rem 0;
+  }
+
+  .footer-content {
+    gap: 0.5rem;
+  }
+
+  .footer-content p {
+    font-size: 0.75rem;
+  }
+
+  .social-media {
+    gap: 0.5rem;
+  }
+
+  .social-icon {
+    font-size: 1rem;
+  }
+
+  .footer-links {
+    gap: 1rem;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+  }
 }

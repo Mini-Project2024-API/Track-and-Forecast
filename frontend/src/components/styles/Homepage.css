@@ -17,15 +17,56 @@
 .intro h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: #0d47a1;
 }
 
 .intro p {
   font-size: 1.125rem;
   color: #333;
+  line-height: 1.6;
 }
 
 .city-selection {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content {
+    padding: 1.5rem;
+  }
+
+  .intro h1 {
+    font-size: 1.75rem;
+  }
+
+  .intro p {
+    font-size: 1rem;
+  }
+
+  .city-selection {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 1rem;
+  }
+
+  .intro h1 {
+    font-size: 1.5rem;
+  }
+
+  .intro p {
+    font-size: 0.9rem;
+  }
+
+  .city-selection {
+    gap: 0.5rem;
+  }
 }

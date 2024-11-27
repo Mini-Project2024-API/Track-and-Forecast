@@ -7,6 +7,7 @@
   padding: 2rem;
   min-height: 80vh;
   background-color: #f9f9f9;
+  flex-wrap: wrap;
 }
 
 .signup-container {
@@ -16,18 +17,22 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
+  margin: 1rem;
 }
 
 .signup-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   color: #0d47a1;
+  font-size: 1.75rem;
+  font-weight: 600;
 }
 
 .user-type-selection {
   display: flex;
   justify-content: space-around;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .user-type-selection label {
@@ -35,6 +40,7 @@
   align-items: center;
   font-size: 1rem;
   color: #333333;
+  margin: 0.5rem;
 }
 
 .user-type-selection input {
@@ -42,18 +48,19 @@
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   color: #555555;
+  font-weight: 500;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border: 1px solid #cccccc;
   border-radius: 0.5rem;
   font-size: 1rem;
@@ -95,4 +102,66 @@
 
 .login-link a:hover {
   text-decoration: underline;
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-container {
+    padding: 1.5rem;
+  }
+
+  .signup-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .signup-button {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .user-type-selection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-type-selection label {
+    font-size: 0.9rem;
+  }
+
+  .login-link {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 1rem;
+  }
+
+  .signup-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .form-group input {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .signup-button {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .user-type-selection label {
+    font-size: 0.85rem;
+  }
+
+  .login-link {
+    font-size: 0.85rem;
+  }
+}
 }

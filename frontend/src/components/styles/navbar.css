@@ -1,3 +1,4 @@
+/* General Navbar Styles */
 nav {
   background-color: #0d47a1;
   color: white;
@@ -6,6 +7,9 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .container {
@@ -14,9 +18,10 @@ nav {
   align-items: center;
   max-width: 1200px;
   width: 100%;
+  padding: 0 1rem;
 }
 
-/* Container for the logo and brand name */
+/* Logo Section */
 .logo {
   display: flex;
   align-items: center;
@@ -24,15 +29,14 @@ nav {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Logo Image */
 .logo img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
   margin-right: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .logo:hover img {
@@ -40,18 +44,7 @@ nav {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.logo img:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-}
-
+/* Nav Links */
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -68,11 +61,8 @@ nav {
   font-size: 1.125rem;
   font-weight: 600;
   text-decoration: none;
-  display: flex;
-  align-items: center;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  position: relative;
 }
 
 .nav-links a:hover,
@@ -99,11 +89,7 @@ nav {
   transform: scaleX(1);
 }
 
-/* Dropdown */
-.dropdown {
-  position: relative;
-}
-
+/* Dropdown Menu */
 .dropdown-menu {
   display: none;
   position: absolute;
@@ -126,34 +112,11 @@ nav {
   transform: translateY(0);
 }
 
-.dropdown-menu li {
-  padding: 0.5rem 1rem;
-}
-
-.dropdown-menu a,
-.dropdown-menu .logout-button {
-  color: #333;
-  text-decoration: none;
-  display: block;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.dropdown-menu a:hover,
-.dropdown-menu .logout-button:hover {
-  color: #0d47a1;
-  background-color: #f1f1f1;
-}
-
 /* Search Bar */
 .search-bar {
   position: relative;
   width: 100%;
   max-width: 16rem;
-  margin-top: 0.5rem;
 }
 
 .search-bar input {
@@ -181,14 +144,9 @@ nav {
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
-.search-bar button:hover {
-  color: #1976d2;
-}
-
-/* Mobile Menu Button */
+/* Mobile Menu */
 .mobile-menu-button {
   display: none;
   color: white;
@@ -196,22 +154,13 @@ nav {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
-  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .mobile-menu-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  transform: scale(1.1);
 }
 
-.mobile-menu-button:focus {
-  outline: none;
-  transform: scale(1.1);
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* alert */
+/* Alerts */
 .alert {
   width: 80%;
   position: fixed;
@@ -221,19 +170,19 @@ nav {
   border-radius: 5px;
   color: #fff;
   font-size: 16px;
-  font-weight: bold;
   z-index: 1000;
   transition: opacity 0.5s ease-in-out;
 }
 
 .alert-success {
-  background-color: #28a745; /* Green color for logout successfully */
+  background-color: #28a745;
 }
 
 .alert-error {
-  background-color: #dc3545; /* Red color for logout error */
+  background-color: #dc3545;
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .mobile-menu-button {
     display: block;
@@ -244,11 +193,12 @@ nav {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 60px;
+    top: 100%;
     right: 0;
     background-color: #0d47a1;
     width: 100%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    gap: 0;
   }
 
   .nav-links.open {
@@ -261,12 +211,21 @@ nav {
 
   .search-bar {
     margin-top: 1rem;
-    width: 80%;
+    width: 90%;
   }
 
   .dropdown-menu {
     position: static;
     width: 100%;
     box-shadow: none;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
   }
 }

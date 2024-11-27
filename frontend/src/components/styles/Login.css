@@ -20,6 +20,7 @@
   text-align: center;
   margin-bottom: 1.5rem;
   color: #0d47a1;
+  font-size: 1.75rem;
 }
 
 .form-group {
@@ -30,6 +31,7 @@
   display: block;
   margin-bottom: 0.5rem;
   color: #555555;
+  font-size: 1rem;
 }
 
 .form-group input {
@@ -55,25 +57,80 @@
   border-radius: 0.5rem;
   font-size: 1.125rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .login-button:hover {
   background-color: #1976d2;
+  transform: scale(1.03);
 }
 
 .signup-link {
   text-align: center;
   margin-top: 1rem;
   color: #555555;
+  font-size: 0.95rem;
 }
 
 .signup-link a {
   color: #0d47a1;
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .signup-link a:hover {
   text-decoration: underline;
+  color: #1976d2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1.5rem 2rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-group input {
+    font-size: 0.95rem;
+  }
+
+  .login-button {
+    font-size: 1rem;
+  }
+
+  .signup-link {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1rem 1.5rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .form-group input {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .login-button {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .signup-link {
+    font-size: 0.8rem;
+  }
 }

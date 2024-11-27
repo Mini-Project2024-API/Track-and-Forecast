@@ -1,9 +1,18 @@
 .city-selector {
   width: 75%;
+  max-width: 800px;
+  margin: 2rem auto;
   background-color: #f9f9f9;
   border: 1px solid #dcdcdc;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.city-selector:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .city-selector h2 {
@@ -13,11 +22,11 @@
   color: #444;
 }
 
-/* Filter Buttons */
 .filter-options {
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 
@@ -27,6 +36,7 @@
   border: none;
   border-radius: 0.5rem;
   padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
@@ -36,7 +46,6 @@
   transform: scale(1.05);
 }
 
-/* City Options */
 .city-options {
   display: flex;
   flex-direction: column;
@@ -69,7 +78,7 @@
   text-align: center;
   margin-top: 1.5rem;
 }
-/* Modal Styling */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -137,4 +146,57 @@
 
 .train-modal button:hover {
   background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+  .city-selector {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .filter-options {
+    gap: 0.5rem;
+  }
+
+  .filter-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .city-button {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .train-modal {
+    padding: 1.5rem;
+  }
+
+  .train-modal h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .city-selector {
+    padding: 1rem;
+  }
+
+  .filter-button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .city-button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .train-modal {
+    padding: 1rem;
+  }
+
+  .train-modal h3 {
+    font-size: 1rem;
+  }
 }
